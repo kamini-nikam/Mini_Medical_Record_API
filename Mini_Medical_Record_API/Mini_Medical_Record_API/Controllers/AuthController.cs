@@ -22,7 +22,7 @@ namespace Mini_Medical_Record_API.Controllers
             {
                 return BadRequest("Invalid login request.");
             }
-            var response = await _login.LoginAsync(loginRequest);
+            var response = await _login.Login(loginRequest);
             if (response == null)
             {
                 return Unauthorized("Invalid username or password.");
@@ -35,15 +35,15 @@ namespace Mini_Medical_Record_API.Controllers
             // Implement logout logic here, such as clearing session or token
             return Ok("Logged out successfully.");
         }
-        [HttpPost("register")]
-        public IActionResult Register([FromBody] LoginResponse registerRequest)
+        [HttpPost("Registration")]
+        public async Task<IActionResult> Register(RegisterResponse Regres)
         {
-            if (registerRequest == null)
+            if (Regres == null)
             {
                 return BadRequest("Invalid registration request.");
             }
-           
-            return Ok("User registered successfully.");
+
+            return Ok(await _login.UserRegistration(Regres));
         }
     }
 }
